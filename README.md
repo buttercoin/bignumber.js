@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/MikeMcl/bignumber.js.svg)](https://travis-ci.org/MikeMcl/bignumber.js)
 
 # bignumber.js #
 
@@ -8,16 +9,16 @@ A JavaScript library for arbitrary-precision decimal and non-decimal arithmetic.
   - Faster, smaller, and perhaps easier to use than JavaScript versions of Java's BigDecimal
   - 5 KB minified and gzipped
   - Simple API but full-featured
-  - Works with numbers with or without fraction digits in bases from 2 to 36 inclusive
+  - Works with numbers with or without fraction digits in bases from 2 to 64 inclusive
   - Replicates the `toExponential`, `toFixed`, `toPrecision` and `toString` methods of JavaScript's Number type
-  - Includes a `toFraction` and a `squareRoot` method
-  - Stores values in an accessible decimal floating point format
+  - Includes a `toFraction` and a correctly-rounded `squareRoot` method
   - No dependencies
-  - Comprehensive documentation and test set 
+  - Comprehensive [documentation](http://mikemcl.github.io/bignumber.js/) and test set 
 
 If an even smaller and simpler library is required see [big.js](https://github.com/MikeMcl/big.js/).   
 It's half the size but only works with decimal numbers and only has half the methods.   
-It also does not allow `NaN` or `Infinity`, or have the configuration options of this library. 
+It also does not allow `NaN` or `Infinity`, or have the configuration options of this library.  
+See also [decimal.js](https://github.com/MikeMcl/decimal.js/).
 
 ## Load
 
@@ -31,19 +32,19 @@ or as a CommonJS, [Node.js](http://nodejs.org) or AMD module using `require`.
 
 For Node, put the *bignumber.js* file into the same directory as the file that is requiring it and use
 
-    var BigNumber = require('./bignumber'); 
+    var BigNumber = require('./bignumber.js'); 
 
-or put it in a *node_modules* directory within the directory and use `require('bignumber')`. 
+or put it in a *node_modules* directory within the directory and use `require('bignumber.js')`. 
 
 The library is also available from the [npm](https://npmjs.org/) registry, so
 
     $ npm install bignumber.js
 
-will install this entire directory in a *node_modules* directory within the current directory.  
+will install this directory in a *node_modules* directory within the current directory.  
  
 To load with AMD loader libraries such as [requireJS](http://requirejs.org/):
 
-    require(['bignumber'], function(BigNumber) {  
+    require(['path/to/bignumber'], function(BigNumber) {  
         // Use BigNumber here in local scope. No global BigNumber. 
     });
 
@@ -60,7 +61,7 @@ It accepts a value of type Number *(up to 15 significant digits only)*, String o
     z = new BigNumber(x)
     x.equals(y) && y.equals(z) && x.equals(z)        // true
 
-and a base from 2 to 36 inclusive can be specified.
+and a base from 2 to 64 inclusive can be specified.
 
     x = new BigNumber(1011, 2)           // "11" 
     y = new BigNumber('zz.9', 36)        // "1295.25"
@@ -89,6 +90,7 @@ Like JavaScript's Number type, there are `toExponential`, `toFixed` and `toPreci
     x.toExponential(5)              // "2.55500e+2"
     x.toFixed(5)                    // "255.50000"
     x.toPrecision(5)                // "255.50"
+    x.toNumber()                    // 255.5
 
  and a base can be specified for `toString`.
 
@@ -129,7 +131,7 @@ The value of a BigNumber is stored in a decimal floating point format in terms o
     x.e                                 // 2                exponent 
     x.s                                 // -1               sign
 
-For futher information see the API reference in the *doc* folder.
+For futher information see the [API](http://mikemcl.github.io/bignumber.js/) reference from the *doc* folder.
 
 ## Test
 
@@ -187,20 +189,19 @@ I.e. minify.
 
 For Node, if uglify-js is installed globally ( `npm install uglify-js -g` ) then 
 
-    uglifyjs -o ./bignumber.min.js ./bignumber.js
+    npm run build
 
 will create *bignumber.min.js*.   
 
 ## Feedback
 
-Bugs: surely not! Open an issue, please.  
-Other feedback to:
+Open an issue, or email  
 
 Michael   
 <a href="mailto:M8ch88l@gmail.com">M8ch88l@gmail.com</a>
 
 Bitcoin donation to:  
-**1KdnpLRSkWJs4FXPzj7pQ39H4Ur6Urydti**  
+**1CauoGYrEoJFhcyxGVaiLTE6f3WCaSUjnm**  
 Thank you
 
 ## Licence
@@ -211,6 +212,19 @@ See LICENCE.
 
 ## Change Log
 
+####1.4.1
+* 08/06/2014 Amend README.
+
+####1.4.0
+* 08/05/2014 Added `toNumber`.
+
+####1.3.0
+* 08/11/2013 Ensure correct rounding of `sqrt` in all, rather than almost all, cases.
+* Maximum radix to 64.
+
+####1.2.1
+* 17/10/2013 Sign of zero when x < 0 and x + (-x) = 0.
+
 ####1.2.0
 * 19/9/2013 Throw Error objects for stack.
 
@@ -218,10 +232,10 @@ See LICENCE.
 * 22/8/2013 Show original value in constructor error message.
 
 ####1.1.0
-* 1/8/2013  Allow numbers with trailing radix point.  
+* 1/8/2013 Allow numbers with trailing radix point.  
 
 ####1.0.1
 * Bugfix: error messages with incorrect method name 
 
 ####1.0.0
-* 8/11/2012  Initial release   
+* 8/11/2012 Initial release   
