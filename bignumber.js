@@ -1,10 +1,10 @@
-/*! bignumber.js v1.4.1 https://github.com/MikeMcl/bignumber.js/LICENCE */
+/*! bignumber.js v1.5.0 https://github.com/MikeMcl/bignumber.js/LICENCE */
 
 ;(function ( global ) {
     'use strict';
 
     /*
-      bignumber.js v1.4.1
+      bignumber.js v1.5.0
       A JavaScript library for arbitrary-precision arithmetic.
       https://github.com/MikeMcl/bignumber.js
       Copyright (c) 2012 Michael Mclaughlin <M8ch88l@gmail.com>
@@ -897,6 +897,21 @@
         }
         // Compare lengths.
         return k == l ? 0 : k > l ^ a ? 1 : -1;
+    };
+
+
+    /*
+     * Return the number of decimal places of the value of this BigNumber,
+     * or null if the value of this BigNumber is +-Infinity or NaN.
+     */
+    P['decimalPlaces'] = P['dp'] = function () {
+        var dp;
+
+        if ( this['c'] ) {
+            dp = this['c'].length - this['e'] - 1;
+            return dp < 0 ? 0 : dp;
+        }
+        return null;
     };
 
 
@@ -1981,7 +1996,7 @@
     /*
      * Return as toString, but do not accept a base argument.
      */
-    P['valueOf'] = function () {
+    P['valueOf'] = P['toJSON'] = function () {
         return this['toS']();
     };
 
